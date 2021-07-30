@@ -100,7 +100,6 @@ export default class TextFit extends React.Component {
             ? () => assertElementFitsWidth(wrapper, originalWidth)
             : () => assertElementFitsHeight(wrapper, originalHeight);
 
-        const fontSize = this.state.fontSize;
         let mid;
         let proportion;
         let proportionUsed = 0;
@@ -116,14 +115,10 @@ export default class TextFit extends React.Component {
                 () => low <= high,
                 whilstCallback => {
                     if (shouldCancelProcess()) return whilstCallback(true);
-                    if (proportionUsed >= 2) {
+                    if (mid === undefined || proportionUsed >= 1) {
                         mid = Math.floor((low + high) / 2);
                     } else {
-                        if (proportionUsed === 0) {
-                            mid = fontSize;
-                        } else {
-                            mid = Math.floor(mid / proportion);
-                        }
+                        mid = Math.floor(mid / proportion);
                         proportionUsed += 1;
                     }
                     this.setState({ fontSize: mid }, () => {
@@ -143,7 +138,7 @@ export default class TextFit extends React.Component {
             // in order to not fit the elements height and decrease the width
             stepCallback => {
                 if (mode === 'single' && forceSingleModeWidth) return stepCallback();
-                if (testSecondary()) return stepCallback();
+                if (testSecondary() <= 1) return stepCallback();
                 low = min;
                 high = mid;
                 mid = undefined;
