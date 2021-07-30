@@ -130,7 +130,7 @@ export default class TextFit extends React.Component {
                         if (shouldCancelProcess()) return whilstCallback(true);
                         proportion = testPrimary();
                         if (proportion === 1) low = high = mid;
-                        else if (proportion <= 1) low = mid + 1;
+                        if (proportion <= 1) low = mid + 1;
                         else high = mid - 1;
                         return whilstCallback();
                     });
@@ -162,7 +162,7 @@ export default class TextFit extends React.Component {
                             if (pid !== this.pid) return whilstCallback(true);
                             proportion = testSecondary();
                             if (proportion === 1) low = high = mid;
-                            else if (proportion <= 1) low = mid + 1;
+                            if (proportion <= 1) low = mid + 1;
                             else high = mid - 1;
                             return whilstCallback();
                         });
